@@ -1,9 +1,11 @@
 'use strict';
 
 const mongoose = require('mongoose');
-bbbb
+
 const folderSchema = new mongoose.Schema({
-  name: { type: String, unique: true}
+  name: { 
+    type: String, 
+    unique: true}
 });
 
 folderSchema.set('toObject', {
