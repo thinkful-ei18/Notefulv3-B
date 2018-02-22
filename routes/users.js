@@ -5,38 +5,26 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 
 //POST
-router.post('/user', (req, res) => {
+router.post('/users', (req, res, next) => {
+
   const requiredFields = ['username', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
-  console.log('A')
 
-  //Missing one+
   if (missingField) {
-    console.log('B')
-
-    return res.status(422).json({
-      code: 422,
-      reason: 'Validation Error',
-      message: 'Missing a field',
-      location: missingField
-    });
+    const err = new Error(`Missing '${missingField}' in request body`);
+    err.status = 422;
+    return next(err);
   }
 
-  //MUST be String
-  const stringFields = ['username', 'password', 'firstName', 'lastName'];
+  const stringFields = ['username', 'password', 'fullname'];
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
   );
 
   if (nonStringField) {
-    console.log('C')
-
-    return res.status(422).json({
-      code: 422,
-      reason: 'Validation Error',
-      message: 'Incorrect field type',
-      location: nonStringField
-    });
+    const err = new Error(`Field: '${nonStringField}' must be type String`);
+    err.status = 422;
+    return next(err);
   }
 
   //TRIM SPACE BUT NOT ON PASSWORD
@@ -44,9 +32,8 @@ router.post('/user', (req, res) => {
   const withWhiteSpaces = noWhiteSpaces.find(
     field => req.body[field].trim() !== req.body[field]
   );
+  console.log("TRIM")
   if (withWhiteSpaces) {
-    console.log('D')
-
     const err = new Error(`Field: '${withWhiteSpaces}' cannot start or end with whitespace`);
     err.status = 422;
     return next(err);
