@@ -9,7 +9,9 @@ const Note = require('../models/note');
 
 //GET ALL
 router.get('/folders', (req, res, next) => {
-  Folder.find()
+  const userId = req.user.id;
+
+  Folder.find({ userId })
     .sort('name')
     .then(results => {
       res.json(results);
@@ -20,6 +22,7 @@ router.get('/folders', (req, res, next) => {
 //GET ONE
 router.get('/folders/:id', (req, res, next) => {
   const { id } = req.params;
+  const userId = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     const err = new Error('The `id` is not valid');
@@ -27,7 +30,7 @@ router.get('/folders/:id', (req, res, next) => {
     return next(err);
   }
 
-  Folder.findById(id)
+  Folder.findOne({ _id: id, userId })
     .then(result => {
       if (result) {
         res.json(result);
@@ -39,10 +42,12 @@ router.get('/folders/:id', (req, res, next) => {
 });
 
 //POST
+
 router.post('/folders', (req, res, next) => {
   const { name } = req.body;
+  const userId = req.user.id;
 
-  const newItem = { name };
+  const newItem = { name, userId };
 
   //users can be losers
   if (!name) {
@@ -64,12 +69,15 @@ router.post('/folders', (req, res, next) => {
     });
 });
 
+
 //PUT
+/* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/folders/:id', (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
+  const userId = req.user.id;
 
-  //users can be losers
+  /***** Never trust users - validate input *****/
   if (!name) {
     const err = new Error('Missing `name` in request body');
     err.status = 400;
@@ -82,7 +90,7 @@ router.put('/folders/:id', (req, res, next) => {
     return next(err);
   }
 
-  const updateItem = { name };
+  const updateItem = { name, userId };
 
   Folder.findByIdAndUpdate(id, updateItem, { new: true })
     .then(result => {
@@ -101,16 +109,14 @@ router.put('/folders/:id', (req, res, next) => {
     });
 });
 
-//DELETE
+/* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/folders/:id', (req, res, next) => {
   const { id } = req.params;
+  const userId = req.user.id;
 
-  const folderRemovePromise = Folder.findByIdAndRemove(id); 
+  const folderRemovePromise = Folder.findOneAndRemove({ _id: id, userId });
 
-  const noteRemovePromise = Note.updateMany(
-    { 'tags': id, },
-    { '$pull': { 'tags': id } }
-  );
+  const noteRemovePromise = Note.updateMany({ folderId: id, userId }, { $unset: { folderId: "" } });
 
   Promise.all([folderRemovePromise, noteRemovePromise])
     .then(resultsArray => {

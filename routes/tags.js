@@ -9,7 +9,8 @@ const Note = require('../models/note');
 
 //GET
 router.get('/tags', (req, res, next) => {
-  Tag.find()
+  const userId = req.user.id;
+  Tag.find({userId})
     .sort('name')
     .then(results => {
       res.json(results);
@@ -20,6 +21,7 @@ router.get('/tags', (req, res, next) => {
 //GET ONE
 router.get('/tags/:id', (req, res, next) => {
   const { id } = req.params;
+  const userId = req.user.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     const err = new Error('The `id` is not valid');
@@ -27,7 +29,7 @@ router.get('/tags/:id', (req, res, next) => {
     return next(err);
   }
 
-  Tag.findById(id)
+  Tag.findById( {_id: id, userId} )
     .then(result => {
       if (result) {
         res.json(result);
@@ -41,8 +43,8 @@ router.get('/tags/:id', (req, res, next) => {
 //POST
 router.post('/tags', (req, res, next) => {
   const { name } = req.body;
-
-  const newTag = { name };
+  const userId = req.user.id;
+  const newTag = { name, userId };
 
   //users can be losers
   if (!name) {
@@ -68,7 +70,7 @@ router.post('/tags', (req, res, next) => {
 router.put('/tags/:id', (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
-
+  const userId = req.user.id;
   //users can be losers
   if (!name) {
     const err = new Error('Missing `name` in request body');
@@ -92,7 +94,7 @@ router.put('/tags/:id', (req, res, next) => {
         next();
       }
     })
-    .catch(err => {      
+    .catch(err => {
       if (err.code === 11000) {
         err = new Error('The tag name already exists');
         err.status = 400;
@@ -104,11 +106,12 @@ router.put('/tags/:id', (req, res, next) => {
 //DELETE
 router.delete('/tags/:id', (req, res, next) => {
   const { id } = req.params;
-  const tagRemovePromise = Tag.findByIdAndRemove(id);
+  const tagRemovePromise = Tag.findByIdAndRemove({ _id: id, userId });
+  const userId = req.user.id;
 
   const noteUpdatePromise = Note.updateMany(
-    { 'tags': id, },
-    { '$pull': { 'tags': id } }
+    { 'tags': id, userId  },
+    { '$pull': { 'tags': id, userId } }
   );
 
   Promise.all([tagRemovePromise, noteUpdatePromise])
@@ -122,5 +125,19 @@ router.delete('/tags/:id', (req, res, next) => {
     .catch(next);
 
 });
+
+
+//Folders & Tags & Users (Didn't Get To Tags in the ***BONUS***)
+validateFolderId = (folderIdB, userIdB) => {
+  if(!folderIdB) {
+    return Promise.resolve('match');
+  }
+return Folder.find({_id: folderIdB, userIdA: userIdB })
+.then(result => {
+  if (!result.length) {
+    return Promise.reject('no match');
+  }
+})
+}
 
 module.exports = router;

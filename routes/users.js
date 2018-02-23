@@ -28,7 +28,7 @@ router.post('/users', (req, res, next) => {
   }
 
   //TRIM SPACE BUT NOT ON PASSWORD
-  const noWhiteSpaces = ['username', 'password'];
+  const noWhiteSpaces = ['username'];
   const withWhiteSpaces = noWhiteSpaces.find(
     field => req.body[field].trim() !== req.body[field]
   );

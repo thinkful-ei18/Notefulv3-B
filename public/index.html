@@ -16,8 +16,10 @@
   <header>
     <h1>Noteful</h1>
   </header>
+  <div class="js-username-entry">
+  </div>
   <main>
-    
+
     <section class="signup-login">
       <form id="signup-form" class="js-signup-from">
         <fieldset>
@@ -37,7 +39,7 @@
           <button type="submit">Signup</button>
         </fieldset>
       </form>
-    
+
       <form id="login-form" class="js-login-form">
         <fieldset>
           <legend>Login</legend>
@@ -52,8 +54,8 @@
           <button type="submit">Login</button>
         </fieldset>
       </form>
-    
-    
+
+
     </section>
 
     <nav class="folders-tags">
@@ -79,6 +81,7 @@
     <nav class="notes">
       <header>
         <h2>Notes</h2>
+        <h3 class="js-username-entry"></h3>
         <form id="notes-search-form" class="js-notes-search-form">
           <input type="text" name="searchTerm" class="js-note-search-entry" placeholder="title search">
           <button type="submit">go</button>
@@ -110,8 +113,7 @@
     <div class="success-message js-success-message"></div>
   </footer>
 
-  <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-    crossorigin="anonymous"></script>
+  <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k="
     crossorigin="anonymous"></script>
 

@@ -42,6 +42,9 @@ const noteful = (function () {
     const tagsSelect = generateTagsSelect(store.tags);
     $('.js-note-tags-entry').html(tagsSelect);
 
+    const userName = generateUserName(store.currentUser || payload.user);
+    $('.js-username').html(userName)
+
     const editForm = $('.js-note-edit-form');
     editForm.find('.js-note-title-entry').val(store.currentNote.title);
     editForm.find('.js-note-content-entry').val(store.currentNote.content);
