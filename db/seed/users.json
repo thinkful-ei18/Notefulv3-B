@@ -1,0 +1,9 @@
+[
+  {
+    "_id": "333333333333333333333300",
+    "fullname": "User Zero",
+    "username": "user0",
+    "password": "password0",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVhOTBjZTNiNzQ1N2ViMzdjNzg3YzM0OSIsImZ1bGxuYW1lIjoiVXNlciBaZXJvIiwidXNlcm5hbWUiOiJ1c2VyMCIsImlkIjoiNWE5MGNlM2I3NDU3ZWIzN2M3ODdjMzQ5In0sImlhdCI6MTUxOTQzOTQzNCwiZXhwIjoxNTIwMDQ0MjM0LCJzdWIiOiJ1c2VyMCJ9.tghyFtEr-0vhKxHgXkACCmoRcaDkbMkeZF9aGuCghTM"
+  }
+]

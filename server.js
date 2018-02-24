@@ -39,7 +39,7 @@ app.use('/v3', authRouter);
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 
-app.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+
 
 //Requires Token
 // Mount router on /api
@@ -56,6 +56,7 @@ app.use(function (req, res, next) {
 
 //Error handler
 app.use(function (err, req, res, next) {
+  console.log('Error Handler')
   res.status(err.status || 500);
   res.json({
     message: err.message,

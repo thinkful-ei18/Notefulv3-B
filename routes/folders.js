@@ -3,12 +3,16 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-
+const passport = require('passport');
+const User = require('../models/user');
 const Folder = require('../models/folder');
 const Note = require('../models/note');
 
+
+router.use(passport.authenticate('jwt', { session: false, failWithError: true }));
 //GET ALL
 router.get('/folders', (req, res, next) => {
+  console.log(req.user);
   const userId = req.user.id;
 
   Folder.find({ userId })

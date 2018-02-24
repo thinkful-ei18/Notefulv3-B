@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "222222222222222222222200",
+    "name": "foo",
+    "userId": "333333333333333333333300",
+    "fullname": "User Zero",
+    "username": "user0",
+    "password": "password0"
+  },
+  {
+    "_id": "222222222222222222222201",
+    "name": "bar",
+    "userId": "333333333333333333333300",
+    "fullname": "User Zero",
+    "username": "user0",
+    "password": "password0"
+  },
+  {
+    "_id": "222222222222222222222202",
+    "name": "baz",
+    "userId": "333333333333333333333300",
+    "fullname": "User Zero",
+    "username": "user0",
+    "password": "password0"
+  },
+  {
+    "_id": "222222222222222222222203",
+    "name": "qux",
+    "userId": "333333333333333333333300",
+    "fullname": "User Zero",
+    "username": "user0",
+    "password": "password0"
+  }
+]
