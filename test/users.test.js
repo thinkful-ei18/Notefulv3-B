@@ -3,6 +3,9 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const chaiSpies = require('chai-spies');
 const mongoose = require('mongoose');
+const Note = require('../models/note');
+const Folder = require('../models/folder');
+const Tag = require('../models/tag');
 const jwt = require('jsonwebtoken');
 
 

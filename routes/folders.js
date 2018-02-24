@@ -9,7 +9,7 @@ const Folder = require('../models/folder');
 const Note = require('../models/note');
 
 
-router.use(passport.authenticate('jwt', { session: false, failWithError: true }));
+router.use(passport.authenticate('jwt', { session: false, failWithError: false }));
 //GET ALL
 router.get('/folders', (req, res, next) => {
   console.log(req.user);
